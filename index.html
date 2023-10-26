@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css"/>
+</head>
+<body>
+    <template id = "greetings" style="color:rgb(0, 245, 114)">
+          ___    _____  ___    ___            ___                  _   _               _   
+        (  _ \ (  _  )(  _ \ (  _ \         (  _ \               ( ) ( )             ( )_ 
+        | (_(_)| ( ) || (_(_)| ( (_) ______ | | ) |   __   _   _ | |_| |   _     ___ |  _)
+         \__ \ | | | | \__ \ | |  _ (______)| | | ) / __ \( ) ( )|  _  | / _ \ /  __)| |  
+        ( )_) || (_) |( )_) || (_( )        | |_) |(  ___/| \_/ || | | |( (_) )\__  \| |_ 
+         \(___)(_____) \(___)(____/         (____/  )\___) \   / (_) (_) \ __/ (__(_/)\__)
+         (_)           (_)                         (__)     \ /          /(      /( (__)  
+                                                            (_)         (__)    (__)      
+       
+
+    </template>
+    <style>
+        :root {
+           --size: 1.2;
+        }
+        </style>
+        
+    <script>
+       
+       
+       
+
+
+        $('body').terminal({
+            help: async function(){
+                await this.echo("You need to solve the first challenge in order to get the secret passcode for the next challenge, \n once you have gotten the deciphered passcode, type the passcode to view the next challenge\n"
+                 + "[[gb;green;black]" + "First challenge is to decipher this -->   8.5.12.12.15.15.23.15.18.12.4 (A=1,B=2..)" 
+                 + "[[gb;red;black]" + "\n Type checkFlag FLAGNAME to answer"
+                 , { typing: true, delay: 55 });
+                
+               
+            },
+            checkFlag: async function(userFlag) {
+                
+                
+                
+                    const requestOptions = {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ flag: userFlag }),
+                    };
+
+                    try {
+                        const response = await fetch('http://localhost:3000/checkFlag', requestOptions);
+                        const data = await response.json();
+                        
+                        if (data.success && data.message == 'FLAG1') {
+                        // Correct flag, handle success
+                        await this.echo("[[gb;green;black]" + "\nCorrect Answer ! " , { typing: true, delay: 55 })
+                        await this.echo("[[gb;green;black]" + "Heres the next cipher -- >  pvbuozthlhx (A-Z,B-Y....)", { typing: true, delay: 55 })
+                        //console.log(data.message);
+                        } 
+                        else if(data.success && data.message == 'FLAG2'){
+                            await this.echo("[[gb;green;black]" + "\nCorrect Answer !" , { typing: true, delay: 55 })
+                            await this.echo("Now onto the Steganography Round ! " , { typing: true, delay: 55 })
+                            const img = $('<img src="https://cdn.discordapp.com/attachments/1166372199159058506/1166372240665878648/encoded.png?ex=654a3fcc&is=6537cacc&hm=6877c084c64e4e131936239049e883b196e1e697b39f2c04cfa5975c46aafb59&' +
+                                '">');
+                            await  this.echo(img);
+                            await this.echo("Right-click to Save the image, theres a hidden message in this image !", { typing: true, delay: 55 })
+                        }
+                        else if(data.success && data.message == 'FLAG3')
+                        {
+                            await this.echo("[[gb;green;black]" + "\nCorrect Answer !" , { typing: true, delay: 55 });
+                            await this.echo("Now onto the final Round : Networking !");
+                            await this.echo("Theres a hidden message being sent through the network ! The Final flag is within that message !")
+                        }
+                        else if(data.success && data.message == 'FLAG4'){
+                            await this.echo("[[gb;green;black]" + "\nCorrect Answer !" , { typing: true, delay: 55 });
+                            await this.echo("[[gb;red;black]" +"You have succesfully gotten all the flags congrats !!!" , { typing: true, delay: 55 });
+                        }
+                       /* else {
+                        // Incorrect flag, handle error
+                        await this.echo( "[[gb;red;black]" + "\n Wrong FLAG ! \nType checkFlag [FLAGNAME] to answer")
+                        //console.error(data.message);
+                        }*/
+                    } catch (error) {
+                        await this.echo( "[[gb;red;black]" + "\n Wrong FLAG !\nType checkFlag FLAGNAME to answer")
+                       // console.error('Error:', error);
+                    }
+                }
+                        
+        }, {
+           
+            greetings: "[[gib;green;black]" + greetings.innerHTML + "Welcome to the SOSC DevHost Capture the Flag \n Type help to get started with your first challenge ! ", 
+            
+           
+           
+            
+            
+
+        });
+        function sendPostRequest() {
+            // Your secret message
+            const secretMessage = "Secret Flag : ivjFvhgklhguozt";
+
+            // Define the request parameters
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: secretMessage }),
+            };
+
+            // Send the POST request
+            fetch('www.google.com', requestOptions)
+                .then(response => {
+                    if (response.ok) {
+                        console.log('POST request successful');
+                    } else {
+                        console.error('POST request failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        const intervalId = setInterval(sendPostRequest, 10000); 
+        
+
+        
+        
+
+        </script>
+
+
+</body>
+</html>
